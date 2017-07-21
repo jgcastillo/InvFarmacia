@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="340.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="org.farmacia.controllers.CargarDatosExcelDialogController">
+    <stylesheets>
+        <URL value="@styles.css" />
+    </stylesheets>
+   <children>
+      <Label layoutX="187.0" layoutY="25.0" style="-fx-font-weight: bold;" text="Carga de Datos desde Excel " />
+      <TextField fx:id="archivoTextField" layoutX="157.0" layoutY="73.0" prefHeight="25.0" prefWidth="403.0" />
+      <JFXButton buttonType="RAISED" layoutX="48.0" layoutY="73.0" onAction="#handleBuscarArchivo" ripplerFill="#f5eeee" style="-fx-background-color: #1C6ECE;" text="Buscar Archivo" textFill="WHITE" />
+      <JFXButton buttonType="RAISED" layoutX="48.0" layoutY="113.0" onAction="#handleCargarArchivo" style="-fx-background-color: #1C6ECE;" text="Cargar Archivo" textFill="WHITE" />
+      <ProgressBar fx:id="progressBar" layoutX="239.0" layoutY="117.0" prefHeight="18.0" prefWidth="317.0" progress="0.0" />
+      <Label fx:id="updateLabel" layoutX="157.0" layoutY="117.0" prefHeight="20.0" prefWidth="65.0" text="Label" />
+   </children>
+</AnchorPane>

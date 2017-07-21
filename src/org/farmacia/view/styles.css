@@ -1,0 +1,52 @@
+/* 
+    Created on : 10-may-2017, 20:03:45
+    Author     : jgcastillo
+*/
+.background {
+    -fx-background-color: #ffffff;
+}
+
+.label {
+    -fx-font-size: 12pt;
+    -fx-font-family: "Tahoma";
+    -fx-text-fill: #1D73D8;
+    -fx-opacity: 1;
+    -fx-font-weight: normal;
+}
+
+.tab .tab-label{
+/*    -fx-background-color:  #1C6ECE;*/
+    -fx-font-family: "Tahoma";
+    -fx-text-fill: #999999;
+}
+
+.tab:selected .tab-label{
+    /*-fx-background-color:  #ffffff;*/
+    -fx-font-family: "Tahoma";
+    -fx-text-fill: #1C6ECE;
+    -fx-font-weight: bold;
+}
+
+#logoPane {
+    -fx-background-image: url("logo.jpeg");
+    -fx-background-size: 444 122;
+    -fx-background-position: center center;
+}
+
+#loginPane {
+    -fx-background-image: url("logo.jpeg");
+    -fx-background-size: 200 55;
+    -fx-background-position: center center;
+}
+
+/*#medicamentoTab {
+    -fx-background-color:  #1C6ECE;
+    -fx-font-family: "Tahoma";
+    -fx-text-fill: #ffffff;
+}
+
+#componentesTab {
+    -fx-background-color:  #1C6ECE;
+    -fx-font-family: "Tahoma";
+    -fx-text-fill: #ffffff;
+}*/

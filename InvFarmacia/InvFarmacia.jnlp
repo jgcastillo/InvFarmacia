@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="InvFarmacia.jnlp">
+  <information>
+    <title>InvFarmacia</title>
+    <vendor>jgcastillo</vendor>
+    <description>Sistema de Inventario de Medicinas de Servicio Remedio para Todos de la parroquia San Judas Tadeo</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="lib\InvFarmacia-Preloader.jar" size="3065" download="progress" />
+    <jar href="InvFarmacia.jar" size="94122" download="eager" />
+    <jar href="lib\controlsfx-8.40.12.jar" size="996389" download="eager" />
+    <jar href="lib\derby.jar" size="3103132" download="eager" />
+    <jar href="lib\derbyLocale_es.jar" size="100830" download="eager" />
+    <jar href="lib\derbyclient.jar" size="583719" download="eager" />
+    <jar href="lib\eclipselink.jar" size="8478776" download="eager" />
+    <jar href="lib\javax.persistence_2.1.0.v201304241213.jar" size="164637" download="eager" />
+    <jar href="lib\jfoenix.jar" size="2359643" download="eager" />
+    <jar href="lib\mysql-connector-java-5.1.23-bin.jar" size="834126" download="eager" />
+    <jar href="lib\org.eclipse.persistence.jpa.jpql_2.5.2.v20140319-9ad6abd.jar" size="1366247" download="eager" />
+  </resources>
+  <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="InvFarmacia" >
+    <param name="requiredFXVersion" value="8.0+"/>
+  </applet-desc>
+  <jfx:javafx-desc  width="800" height="600" main-class="org.farmacia.LoginWindow"  name="InvFarmacia"  preloader-class="invfarmacia.preloader.InvFarmacia_Preloader"/>
+  <update check="always"/>
+</jnlp>

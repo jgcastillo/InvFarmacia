@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" fx:id="mainWindow" prefHeight="740.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.farmacia.MainController">
+   <children>
+      <VBox prefHeight="70.0" prefWidth="800.0" AnchorPane.bottomAnchor="537.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <MenuBar>
+              <menus>
+                <Menu mnemonicParsing="false" text="Archivo">
+                  <items>
+                    <MenuItem mnemonicParsing="false" onAction="#handleSalirMenuItem" text="Salir" />
+                  </items>
+                </Menu>
+                <Menu fx:id="accionesMenu" mnemonicParsing="false" text="Acciones">
+                  <items>
+                    <MenuItem mnemonicParsing="false" onAction="#handleIngresarMedicamento" text="Ingresar Nuevo Medicamento" />
+                        <SeparatorMenuItem fx:id="separador" mnemonicParsing="false" />
+                        <MenuItem fx:id="administrarUsuariosMenu" mnemonicParsing="false" onAction="#handleManageUsers" text="Administrar Usuarios" />
+                        <MenuItem fx:id="cargarDatosExcelMI" mnemonicParsing="false" onAction="#handleLoadExcelData" text="Carga Inicial Datos de Excel" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Otros">
+                  <items>
+                    <MenuItem mnemonicParsing="false" onAction="#handleAbout" text="Acerca de..." />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+            <HBox prefHeight="43.0" prefWidth="800.0" spacing="15.0">
+               <children>
+                  <TextField fx:id="buscarNombreTextField" onAction="#buscarAction" prefHeight="25.0" prefWidth="271.0" promptText="buscar por nombre">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </TextField>
+                  <TextField fx:id="buscarComponenteTextField" layoutX="20.0" layoutY="20.0" onAction="#buscarAction" prefHeight="25.0" prefWidth="271.0" promptText="buscar por componente" />
+                  <Button mnemonicParsing="false" onAction="#buscarAction" prefWidth="90.0" text="Buscar" />
+                  <Button mnemonicParsing="false" onAction="#clearFields" prefWidth="90.0" text="Limpiar" />
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </HBox>
+         </children>
+      </VBox>
+      <SplitPane dividerPositions="0.2568922305764411" layoutY="68.0" prefHeight="532.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="75.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <TableView fx:id="medicamentosTable" layoutX="21.0" prefHeight="530.0" prefWidth="496.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-6.0" AnchorPane.topAnchor="0.0">
+                    <columns>
+                      <TableColumn fx:id="medicamentoColumn" minWidth="122.0" prefWidth="122.0" resizable="false" text="Producto" />
+                        <TableColumn fx:id="presentacionColumn" minWidth="187.0" prefWidth="187.0" resizable="false" text="Presentación" />
+                        <TableColumn fx:id="cantidadColumn" minWidth="187.0" prefWidth="187.0" resizable="false" text="Cantidad" />
+                    </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="535.0" prefWidth="557.0" styleClass="background" stylesheets="@styles.css">
+               <children>
+                  <GridPane hgap="5.0" layoutX="46.0" prefHeight="187.0" vgap="5.0" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="0.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="274.0" minWidth="10.0" prefWidth="157.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="418.0" minWidth="10.0" prefWidth="355.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label prefHeight="25.0" prefWidth="145.0" text="Nombre Producto:">
+                           <GridPane.margin>
+                              <Insets left="10.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label text="Presentación:" GridPane.rowIndex="1">
+                           <GridPane.margin>
+                              <Insets left="10.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label layoutX="20.0" layoutY="46.0" text="Cantidad existente:" GridPane.rowIndex="5">
+                           <GridPane.margin>
+                              <Insets left="10.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label fx:id="productoLabel" alignment="BOTTOM_LEFT" prefHeight="17.0" prefWidth="380.0" GridPane.columnIndex="1">
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </Label>
+                        <Label fx:id="presentacionLabel" alignment="BOTTOM_LEFT" prefHeight="17.0" prefWidth="380.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </Label>
+                        <Label fx:id="cantidadLabel" alignment="BOTTOM_LEFT" prefHeight="17.0" prefWidth="380.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </Label>
+                        <Label text="Componentes:" GridPane.rowIndex="2">
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                        </Label>
+                        <Label fx:id="componentesLabel" prefHeight="17.0" prefWidth="380.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </Label>
+                        <Label text="Ubicación:" GridPane.rowIndex="6">
+                           <GridPane.margin>
+                              <Insets left="10.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label fx:id="ubicacionLabel" prefHeight="20.0" prefWidth="332.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </Label>
+                        <Label text="Equivalentes:" GridPane.rowIndex="4">
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </Label>
+                        <Label fx:id="equivalentesLabel" prefHeight="20.0" prefWidth="347.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </Label>
+                        <Label text="Usos:" GridPane.rowIndex="3">
+                           <GridPane.margin>
+                              <Insets left="10.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label fx:id="usosLabel" prefHeight="20.0" prefWidth="338.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets right="10.0" />
+                     </padding>
+                  </GridPane>
+                  <HBox layoutX="40.0" layoutY="240.0" spacing="10.0" AnchorPane.leftAnchor="40.0">
+                     <children>
+                        <Label fx:id="cantidadSolicitadaLabel" layoutX="58.0" layoutY="185.0" text="Cantidad solicitada:" />
+                        <TextField fx:id="cantidadSolicitadaTextField" layoutX="212.0" layoutY="183.0" prefHeight="25.0" prefWidth="90.0" />
+                        <Button fx:id="entregarButton" layoutX="322.0" layoutY="185.0" mnemonicParsing="false" onAction="#handleEntregar" prefWidth="90.0" text="Entregar" />
+                        <Button fx:id="editarButton" layoutX="437.0" layoutY="183.0" mnemonicParsing="false" onAction="#handleEditarButton" prefWidth="90.0" text="Editar" />
+                     </children>
+                  </HBox>
+                  <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="334.0" layoutY="439.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="23.0">
+                     <image>
+                        <Image url="@logo.jpeg" />
+                     </image>
+                  </ImageView>
+                  <Separator layoutX="20.0" layoutY="214.0" prefHeight="0.0" prefWidth="535.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" />
+                  <Pane fx:id="editPane" layoutX="40.0" layoutY="296.0" prefHeight="272.0" prefWidth="511.0" style="-fx-background-color: #1C6ECE;" AnchorPane.leftAnchor="40.0">
+                     <children>
+                        <TabPane fx:id="editProductTabPane" layoutX="4.0" layoutY="8.0" prefHeight="231.0" prefWidth="504.0" style="-fx-background-color: #ededff;" tabClosingPolicy="UNAVAILABLE">
+                          <tabs>
+                            <Tab text="Producto">
+                              <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="136.0" prefWidth="504.0">
+                                       <children>
+                                          <GridPane layoutX="14.0" layoutY="14.0" prefHeight="82.0" prefWidth="480.0">
+                                            <columnConstraints>
+                                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="234.0" minWidth="10.0" prefWidth="108.0" />
+                                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="372.0" minWidth="10.0" prefWidth="372.0" />
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                            </rowConstraints>
+                                             <children>
+                                                <Label text="Nombre:">
+                                                   <GridPane.margin>
+                                                      <Insets left="5.0" />
+                                                   </GridPane.margin>
+                                                </Label>
+                                                <Label text="Ubicación:" GridPane.rowIndex="1">
+                                                   <GridPane.margin>
+                                                      <Insets left="5.0" />
+                                                   </GridPane.margin>
+                                                </Label>
+                                                <TextField fx:id="editNombreTextField" GridPane.columnIndex="1">
+                                                   <GridPane.margin>
+                                                      <Insets />
+                                                   </GridPane.margin>
+                                                </TextField>
+                                                <TextField fx:id="editUbicacionTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                             </children>
+                                          </GridPane>
+                                       </children>
+                                    </AnchorPane>
+                              </content>
+                            </Tab>
+                            <Tab text="Presentación">
+                              <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="155.0" prefWidth="504.0">
+                                       <children>
+                                          <GridPane prefHeight="60.0" prefWidth="479.0">
+                                             <children>
+                                                <Label text="Actual:">
+                                                   <GridPane.margin>
+                                                      <Insets left="10.0" />
+                                                   </GridPane.margin>
+                                                </Label>
+                                                <Label text="Nuevo:" GridPane.rowIndex="1">
+                                                   <GridPane.margin>
+                                                      <Insets left="10.0" />
+                                                   </GridPane.margin>
+                                                </Label>
+                                                <Label fx:id="editPresentacionLabel" prefHeight="20.0" prefWidth="397.0" GridPane.columnIndex="1" />
+                                                <TextField fx:id="editNewPresentacionTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                             </children>
+                                             <columnConstraints>
+                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="233.0" minWidth="10.0" prefWidth="73.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="406.0" minWidth="10.0" prefWidth="406.0" />
+                                             </columnConstraints>
+                                             <rowConstraints>
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                             </rowConstraints>
+                                          </GridPane>
+                                       </children>
+                                    </AnchorPane>
+                              </content>
+                            </Tab>
+                              <Tab text="Usos">
+                                <content>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <HBox layoutX="8.0" layoutY="7.0" prefHeight="187.0" prefWidth="496.0" AnchorPane.topAnchor="5.0">
+                                             <children>
+                                                <VBox prefHeight="187.0" prefWidth="116.0" spacing="10.0">
+                                                   <children>
+                                                      <Label text="Uso:" />
+                                                      <JFXButton buttonType="RAISED" onAction="#handleEditAgregarUsoButton" prefWidth="60.0" ripplerFill="WHITE" style="-fx-background-color: #1C6ECE;" text="Agregar" textFill="WHITE" />
+                                                      <JFXButton buttonType="RAISED" onAction="#handleEditEliminarUsoButton" prefWidth="60.0" ripplerFill="WHITE" style="-fx-background-color: #1C6ECE;" text="Eliminar" textFill="WHITE" />
+                                                   </children>
+                                                   <padding>
+                                                      <Insets left="10.0" />
+                                                   </padding>
+                                                </VBox>
+                                                <VBox prefHeight="187.0" prefWidth="354.0" spacing="10.0">
+                                                   <children>
+                                                      <TextField fx:id="editUsoTextField" />
+                                                      <ListView fx:id="editUsoListView" prefHeight="200.0" prefWidth="200.0" />
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </HBox>
+                                       </children></AnchorPane>
+                                </content>
+                              </Tab>
+                              <Tab text="Componentes">
+                                <content>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <HBox prefHeight="187.0" prefWidth="504.0" AnchorPane.topAnchor="5.0">
+                                             <children>
+                                                <VBox prefHeight="187.0" prefWidth="116.0" spacing="10.0">
+                                                   <children>
+                                                      <Label text="Componente:" />
+                                                      <JFXButton buttonType="RAISED" onAction="#handleEditAgregarCompButton" prefWidth="60.0" ripplerFill="WHITE" style="-fx-background-color: #1C6ECE;" text="Agregar" textFill="WHITE" />
+                                                      <JFXButton buttonType="RAISED" onAction="#handleEditEliminarCompButton" prefWidth="60.0" ripplerFill="WHITE" style="-fx-background-color: #1C6ECE;" text="Eliminar" textFill="WHITE" />
+                                                   </children>
+                                                   <padding>
+                                                      <Insets left="10.0" />
+                                                   </padding>
+                                                </VBox>
+                                                <VBox prefHeight="187.0" prefWidth="354.0" spacing="10.0">
+                                                   <children>
+                                                      <TextField fx:id="editCompTextField" />
+                                                      <ListView fx:id="editCompListView" prefHeight="200.0" prefWidth="200.0" />
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </AnchorPane>
+                                </content>
+                              </Tab>
+                              <Tab text="Equivalente">
+                                <content>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <HBox prefHeight="187.0" prefWidth="504.0" AnchorPane.topAnchor="5.0">
+                                             <children>
+                                                <VBox prefHeight="187.0" prefWidth="116.0" spacing="10.0">
+                                                   <children>
+                                                      <Label text="Equivalente:" />
+                                                      <JFXButton buttonType="RAISED" onAction="#handleEditAgregarEquiButton" prefWidth="60.0" ripplerFill="WHITE" style="-fx-background-color: #1C6ECE;" text="Agregar" textFill="WHITE" />
+                                                      <JFXButton buttonType="RAISED" onAction="#handleEditEliminarEquiButton" prefWidth="60.0" ripplerFill="WHITE" style="-fx-background-color: #1C6ECE;" text="Eliminar" textFill="WHITE" />
+                                                   </children>
+                                                   <padding>
+                                                      <Insets left="10.0" />
+                                                   </padding>
+                                                </VBox>
+                                                <VBox prefHeight="187.0" prefWidth="354.0" spacing="10.0">
+                                                   <children>
+                                                      <TextField fx:id="editEquiTextField" />
+                                                      <ListView fx:id="editEquiListView" prefHeight="200.0" prefWidth="200.0" />
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </HBox>
+                                       </children></AnchorPane>
+                                </content>
+                              </Tab>
+                          </tabs>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </TabPane>
+                        <HBox layoutX="374.0" layoutY="242.0" spacing="10.0">
+                           <children>
+                              <Button layoutX="317.0" layoutY="149.0" mnemonicParsing="false" onAction="#handleEditGuardarButton" prefWidth="62.0" text="Guardar" />
+                              <Button layoutX="376.0" layoutY="149.0" mnemonicParsing="false" onAction="#handleEditCancelarButton" prefWidth="62.0" text="Cancelar" />
+                           </children>
+                        </HBox>
+                        <Label layoutX="31.0" layoutY="246.0" prefHeight="20.0" prefWidth="122.0" style="-fx-text-fill: #FFFFFF;" text="Panel de Edición" textFill="WHITE" />
+                     </children>
+                  </Pane>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

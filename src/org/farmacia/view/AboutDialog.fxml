@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="255.0" prefWidth="384.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="org.farmacia.controllers.AboutDialogController">
+    <stylesheets>
+        <URL value="@styles.css" />
+    </stylesheets>
+   <children>
+      <ImageView fitHeight="74.0" fitWidth="273.0" layoutX="68.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@logo.jpeg" />
+         </image>
+      </ImageView>
+      <Label layoutX="21.0" layoutY="128.0" prefHeight="20.0" prefWidth="342.0" text="Desarollado por José Gregorio Castillo Pacheco" />
+      <Label layoutX="21.0" layoutY="155.0" text="Contacto:" />
+      <Label layoutX="102.0" layoutY="157.0" text="+58 412 628.0343" />
+      <Label layoutX="102.0" layoutY="185.0" text="jgcastillop@gmail.com" />
+      <Label layoutX="21.0" layoutY="216.0" text="Todos los derechos reservados @2017" />
+   </children>
+   <styleClass>
+      <String fx:value="mainFxmlClass" />
+      <String fx:value="background" />
+   </styleClass>
+</AnchorPane>
