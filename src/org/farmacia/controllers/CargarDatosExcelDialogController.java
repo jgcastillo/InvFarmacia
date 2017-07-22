@@ -93,13 +93,8 @@ public class CargarDatosExcelDialogController implements Initializable {
 
         @Override
         protected Void call() throws Exception {
-//            for(int i = 0; i < 100; i++){
-//                updateProgress(i, 100);
-//                Thread.sleep(10);
-//            }
             try {
                 boolean result = middlewareController.saveExcelData(file);
-//                Thread.sleep(2000);
                 if(result){
                     updateMessage("Listo!");
                 } else {

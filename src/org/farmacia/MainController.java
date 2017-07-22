@@ -237,15 +237,15 @@ public class MainController implements Initializable {
 
     @FXML
     private void handleEntregar(ActionEvent event) {
-        MedicamentoFx medFx = (MedicamentoFx) event.getSource();
+        //MedicamentoFx medFx = (MedicamentoFx) event.getSource();
         int cantidad;
         try {
             cantidad = Integer.parseInt(cantidadSolicitadaTextField.getText());
-            middleware.entregaInventario(medFx.getId(), cantidad);
+            middleware.entregaInventario(medGlobalFx.getId(), cantidad);
 
             showDialogInformation(AlertType.INFORMATION, "Información",
                     "Operación exitosa", "Se ha entregado " + cantidad
-                    + " unidades del medicamento " + medFx.getNombre());
+                    + " unidades del medicamento " +medGlobalFx.getNombre());
             clearFields(event);
         } catch (NumberFormatException e) {
             showDialogInformation(AlertType.ERROR, "Error", "Error de formato",

@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -91,7 +92,7 @@ public class MiddlewareController {
     public void saveMedicamento(MedicamentoFx medFx) {
         Medicamento medicamento = new Medicamento(medFx.getNombre());
         medicamento.setUbicacion(medFx.getUbicacion());
-        
+
         List<String> usosStrs = medFx.getUsos();
         List<String> compStrs = medFx.getComponentes();
         List<String> equiStrs = medFx.getEquivalentes();
@@ -112,7 +113,7 @@ public class MiddlewareController {
         mhp.setMedicamentoId(medicamento);
         mhp.setPresentacionId(presentacion);
         medHPreFacade.create(mhp);
-        
+
         // se crean los usos y se asocia al medicamento
         for (String usStr : usosStrs) {
             Optional<Uso> optUso = usoFacade.findByNombre(usStr);
@@ -146,19 +147,19 @@ public class MiddlewareController {
             mhc.setMedicamentoId(medicamento);
             medHCompFacade.create(mhc);
         }
-        
+
         // se crean los equivalentes y se asocian al medicamento
-        for(String optString : equiStrs){
+        for (String optString : equiStrs) {
             Optional<Equivalente> optEqui = equivalenteFacade.findByNombre(optString);
             Equivalente equiv;
-            
-            if(optEqui.isPresent()){
+
+            if (optEqui.isPresent()) {
                 equiv = optEqui.get();
             } else {
                 equiv = new Equivalente(optString);
                 equiv = equivalenteFacade.create(equiv);
             }
-            
+
             MedicamentoHasEquivalente mhe = new MedicamentoHasEquivalente();
             mhe.setEquivalenteId(equiv);
             mhe.setMedicamentoId(medicamento);
@@ -184,20 +185,20 @@ public class MiddlewareController {
         Medicamento medicamento = medicamentoFacade.find(medFx.getId());
         medicamento.setNombre(medFx.getNombre());
         medicamento.setUbicacion(medFx.getUbicacion());
-        
+
         medicamento = medicamentoFacade.edit(medicamento);
-        
+
         // actualiza presentación
         if (!medFx.getPresentacion().equals(oldPresentacion)) {
             updatePresentacion(medicamento, oldPresentacion, medFx.getPresentacion());
         }
-        
+
         // actualiza usos
         updateUsos(medicamento, medFx);
 
         // actualiza componentes
         updateComponentes(medicamento, medFx);
-        
+
         // actualiza equivalentes
         updateEquivalentes(medicamento, medFx);
 
@@ -209,7 +210,7 @@ public class MiddlewareController {
         Optional<Presentacion> optOldPresEntity = presentacionFacade.findByNombre(oldPresentacion);
         Presentacion oldPresEntity = optOldPresEntity.get();
         Optional<Presentacion> optNewPresEntity = presentacionFacade.findByNombre(newPresentacion);
-        
+
         // se busca la relacion medicamento-presentacion existente
         Optional<MedicamentoHasPresentacion> optMhp = medHPreFacade
                 .findByMedicamentoAndPresentacion(med, oldPresEntity);
@@ -238,17 +239,17 @@ public class MiddlewareController {
             medHPreFacade.create(mhp);
         }
     }
-    
-    public void updateUsos(Medicamento med, MedicamentoFx medFx){
+
+    public void updateUsos(Medicamento med, MedicamentoFx medFx) {
         List<String> usoList = medFx.getUsos();
         Optional<List<MedicamentoHasUso>> optMhuList = medHUsoFacade.findAllByMedicamento(med);
 
-        if(optMhuList.isPresent()){
+        if (optMhuList.isPresent()) {
             // si tiene uso asignados se le eliminan
             int eliminados = medHUsoFacade.deleteAllByMedicamento(med);
             LOG.log(Level.INFO, "Eliminados {0} registros de uso", eliminados);
-        } 
-        
+        }
+
         // se verifica que exista el uso, de no existir se crea y se asocia
 //        for(String usoNombre : usoList){
 //            Optional<Uso> optUso = usoFacade.findByNombre(usoNombre);
@@ -283,9 +284,9 @@ public class MiddlewareController {
         }).forEachOrdered((mhu) -> {
             medHUsoFacade.create(mhu);
         });
-        
+
     }
-    
+
     public void updateComponentes(Medicamento med, MedicamentoFx medFx) {
         List<String> compList = medFx.getComponentes();
 
@@ -316,7 +317,7 @@ public class MiddlewareController {
             medHCompFacade.create(mhc);
         });
     }
-    
+
     public void updateEquivalentes(Medicamento med, MedicamentoFx medFx) {
         List<String> equivList = medFx.getEquivalentes();
 
@@ -356,8 +357,8 @@ public class MiddlewareController {
         mov.setTipo(Movimiento.ENTRADA);
         mov.setFecha(new Date());
         mov.setCantidad(medFx.getCantidad());
-        
-        if(!medFx.getUbicacion().equals(medicamento.getUbicacion())){
+
+        if (!medFx.getUbicacion().equals(medicamento.getUbicacion())) {
             medicamento.setUbicacion(medFx.getUbicacion());
             medicamentoFacade.edit(medicamento);
         }
@@ -417,62 +418,62 @@ public class MiddlewareController {
 
         return medFx;
     }
-    
+
     public Optional<MedicamentoFx> findMedicamentoById(Integer medId) {
         Optional<MedicamentoFx> optMedFx = Optional.empty();
         Optional<Medicamento> optMed = Optional.ofNullable(medicamentoFacade.find(medId));
         if (optMed.isPresent()) {
             Medicamento med = optMed.get();
-            
+
             MedicamentoFx medFx = new MedicamentoFx();
             medFx.setId(med.getId());
             medFx.setNombre(med.getNombre());
             medFx.setUbicacion(med.getUbicacion());
-            
+
             Optional<Inventario> optInv = inventarioFacade.findByMedicamento(med);
             medFx.setCantidad(optInv.isPresent() ? optInv.get().getCantidad() : 0);
-            
-            Optional<MedicamentoHasPresentacion> optPresentacion 
-                                            = medHPreFacade.findByMedicamento(med);
+
+            Optional<MedicamentoHasPresentacion> optPresentacion
+                    = medHPreFacade.findByMedicamento(med);
             medFx.setPresentacion(optPresentacion.isPresent()
-                                    ? optPresentacion.get().getPresentacionId().getNombre() 
-                                    : "");
-            
-            Optional<List<MedicamentoHasComponente>> optCompList = 
-                                        medHCompFacade.findAllByMedicamento(med);
+                    ? optPresentacion.get().getPresentacionId().getNombre()
+                    : "");
+
+            Optional<List<MedicamentoHasComponente>> optCompList
+                    = medHCompFacade.findAllByMedicamento(med);
             ObservableList<String> componentes = FXCollections.observableArrayList();
-            if(optCompList.isPresent()){
+            if (optCompList.isPresent()) {
                 List<MedicamentoHasComponente> mhcList = optCompList.get();
                 mhcList.forEach(mhc -> {
                     componentes.add(mhc.getComponenteId().getNombre());
                 });
-            } 
+            }
             medFx.setComponentes(componentes);
-            
+
             Optional<List<MedicamentoHasUso>> optUsosList = medHUsoFacade
-                                                .findAllByMedicamento(med);
+                    .findAllByMedicamento(med);
             ObservableList<String> usos = FXCollections.observableArrayList();
-            if(optUsosList.isPresent()){
+            if (optUsosList.isPresent()) {
                 List<MedicamentoHasUso> mhuList = optUsosList.get();
                 mhuList.forEach(mhu -> {
                     usos.add(mhu.getUsoId().getNombreUso());
                 });
             }
             medFx.setUsos(usos);
-            
+
             Optional<List<MedicamentoHasEquivalente>> optEquivList = medHEquiFacade
-                                                        .findAllByMedicamento(med);
+                    .findAllByMedicamento(med);
             ObservableList<String> equivs = FXCollections.observableArrayList();
-            if(optEquivList.isPresent()){
+            if (optEquivList.isPresent()) {
                 List<MedicamentoHasEquivalente> mheList = optEquivList.get();
                 mheList.forEach(mhe -> {
                     equivs.add(mhe.getEquivalenteId().getNombre());
                 });
             }
             medFx.setEquivalentes(equivs);
-            
+
             optMedFx = Optional.ofNullable(medFx);
-        } 
+        }
         return optMedFx;
     }
 
@@ -639,42 +640,66 @@ public class MiddlewareController {
                 if (row.getRowNum() == 0) {
                     continue;
                 }
-                Object[] medicamentoFeatures = new Object[5];
+                Object[] medicamentoFeatures = new Object[6];
                 for (Cell cell : row) {
                     int cellColumn = cell.getColumnIndex();
                     if (!eof) {
                         switch (cellColumn) {
                             case 0: // nombre
-                                if (!cell.getStringCellValue().equals("YYYYY")) {
+                                if (!cell.getStringCellValue().equals("YYYYY")) {// marcado para finalizar el archivo
                                     medicamentoFeatures[0] = cell.getStringCellValue();
                                 } else {
                                     eof = true;
                                 }
                                 break;
                             case 1: // componentes
-                                String[] componentes = cell.getStringCellValue().split(":");
+                                String[] componentes;
+                                if (isCellEmpty(cell)) {
+                                    componentes = new String[]{""};
+                                } else {
+                                    componentes = cell.getStringCellValue().split(":");
+                                }
                                 medicamentoFeatures[1] = componentes;
                                 break;
-                            case 2: // presentación
-                                medicamentoFeatures[2] = cell.getStringCellValue();
+                            case 2: // sustitutos
+                                String[] equivalentes;
+                                if (isCellEmpty(cell)) {
+                                    equivalentes = new String[]{""};
+                                } else {
+                                    equivalentes = cell.getStringCellValue().split(":");
+                                }
+                                medicamentoFeatures[2] = equivalentes;
                                 break;
-                            case 5: // usos
+                            case 3: // presentación
+                                String presentacion;
+                                if(isCellEmpty(cell)){
+                                    presentacion = "";
+                                } else {
+                                    presentacion = cell.getStringCellValue();
+                                }
+                                medicamentoFeatures[3] = presentacion;
+                                break;
+                            case 4: // usos
                                 String[] usos;
-                                //if (cell.getCellTypeEnum() == CellType.BLANK) {
-                                if (cell.getStringCellValue().equals("XXX")) {
+                                //if (cell.getStringCellValue().equals("XXX")) {
+                                if (isCellEmpty(cell)) {
                                     usos = new String[]{""};
                                 } else {
                                     usos = cell.getStringCellValue().split("/");
                                 }
-                                medicamentoFeatures[3] = usos;
+                                medicamentoFeatures[4] = usos;
                                 break;
-                            case 4:
+                            case 5:
                                 Double valor;
-                                valor = cell.getNumericCellValue();
-                                medicamentoFeatures[4] = valor.intValue();
+                                if(isCellEmpty(cell)){
+                                    valor = 0.0;
+                                } else {
+                                    valor = cell.getNumericCellValue();
+                                }
+                                medicamentoFeatures[5] = valor.intValue();
                                 break;
-                            default:
-                                continue;
+//                            default:
+//                                continue;
                         }
                     } else {
                         break;
@@ -682,46 +707,68 @@ public class MiddlewareController {
                 }
                 if (!eof) {
                     makeMedicamento(medicamentoFeatures);
-                    LOG.log(Level.INFO, "Finaliza migración de datos");
                 }
             }
             ok = true;
+            LOG.log(Level.INFO, "Finaliza migración de datos");
         } catch (IOException e) {
-            LOG.log(Level.SEVERE, "Error leyendo el archivo: {0}", new Object[]{e});
+            LOG.log(Level.SEVERE, "Error leyendo el archivo: {0}", e.getMessage());
         }
         return ok;
+    }
+
+    private boolean isCellEmpty(final Cell cell) {
+        if (cell == null || (cell.getCellTypeEnum() == CellType.BLANK)) {
+            return true;
+        }
+
+        if (cell.getCellTypeEnum() == CellType.STRING
+                && cell.getStringCellValue().isEmpty()) {
+            return true;
+        }
+
+        return false;
     }
 
     private void makeMedicamento(Object[] medicamentoFeatures) {
 
         // se crea el medicamento
         Medicamento medicamento = new Medicamento();
-        medicamento.setNombre((String) medicamentoFeatures[0]);
+        medicamento.setNombre(((String) medicamentoFeatures[0]).trim());
 
         // se crean los componentes del medicamento
         String[] componentesString = (String[]) medicamentoFeatures[1];
         List<Componente> componentes = new ArrayList<>();
         for (String componenteName : componentesString) {
             Componente comp = new Componente();
-            comp.setNombre(componenteName);
+            comp.setNombre(componenteName.trim());
             componentes.add(comp);
+        }
+        
+        // se crean los equivalentes
+        String[] equivsString = (String[]) medicamentoFeatures[2];
+        List<Equivalente> equivalentes = new ArrayList<>();
+        for (String equivName : equivsString) {
+            Equivalente equiv = new Equivalente();
+            equiv.setNombre(equivName.trim());
+            equivalentes.add(equiv);
         }
 
         // se crea la presentación del medicamento
         Presentacion presentacion = new Presentacion();
-        presentacion.setNombre((String) medicamentoFeatures[2]);
+        presentacion.setNombre(((String) medicamentoFeatures[3]).trim());
 
         // se crean los usos
-        String[] usosString = (String[]) medicamentoFeatures[3];
+        String[] usosString = (String[]) medicamentoFeatures[4];
         List<Uso> usos = new ArrayList<>();
         for (String usoName : usosString) {
             Uso uso = new Uso();
-            uso.setNombreUso(usoName);
+            uso.setNombreUso(usoName.trim());
             usos.add(uso);
         }
-
+        
         // se obtiene la cantidad del medicamento
-        Integer cant = (Integer) medicamentoFeatures[4];
+        Integer cant = (Integer) medicamentoFeatures[5];
 
         // guarda en DB:
         // se cran los medicamentos
@@ -739,6 +786,20 @@ public class MiddlewareController {
             mhc.setComponenteId(compo);
             mhc.setMedicamentoId(medicamento);
             medHCompFacade.create(mhc);
+        }
+        
+        // se crean los equivalente
+        for(Equivalente equiv : equivalentes){
+            Optional<Equivalente> optEquiv = equivalenteFacade.findByNombre(equiv.getNombre());
+            MedicamentoHasEquivalente mhe = new MedicamentoHasEquivalente();
+            if(!optEquiv.isPresent()){
+                equiv = equivalenteFacade.create(equiv);
+            } else {
+                equiv = optEquiv.get();
+            }
+            mhe.setEquivalenteId(equiv);
+            mhe.setMedicamentoId(medicamento);
+            medHEquiFacade.create(mhe);
         }
 
         // se crean las presentaciones
