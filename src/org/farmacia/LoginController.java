@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.farmacia.fxmodel.UsuarioFx;
 import org.farmacia.jpacontroller.UsuarioFacade;
@@ -55,6 +56,8 @@ public class LoginController implements Initializable {
             Scene scene = new Scene(root);
             mainStage.setScene(scene);
             mainStage.setMaximized(true);
+            Image icon = new Image(LoginController.class.getResourceAsStream("/images/icon.png"));
+            mainStage.getIcons().add(icon);
             mainStage.show();
         } else {
             messageLabel.setText("Usuario o clave incorrectas");

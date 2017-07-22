@@ -1,5 +1,9 @@
 package org.farmacia;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 import javafx.application.Application;
@@ -8,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.farmacia.initialdata.InitialData;
@@ -46,6 +51,8 @@ public class LoginWindow extends Application {
         scene = new Scene(root);
         
         loginStage.initStyle(StageStyle.UNDECORATED);
+        Image icon = new Image(LoginWindow.class.getResourceAsStream("/images/icon.png"));
+        loginStage.getIcons().add(icon);
         loginStage.setScene(scene);
         loginStage.show();
     }
